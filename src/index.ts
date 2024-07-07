@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import http from 'http';
 import dataStore from './StoredData'; // Ensure correct import path
 import { riskHandler } from './riskAnalysis';
+import { printUsersHandler } from './printUsersHandler';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 app.post('/log', logHandler);
 app.get('/risk/:parameter', riskHandler);
+app.get('/debug/printusers', printUsersHandler);
 
 // Define routes
 app.post('/log', logHandler);
@@ -28,4 +30,3 @@ const server = http.createServer(app);
 server.listen(DEFAULT_PORT, () => {
     console.log(`Server is running on http://localhost:${DEFAULT_PORT}`);
 });
-
