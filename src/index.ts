@@ -18,6 +18,9 @@ app.get('/risk/:parameter', riskHandler);
 
 // Define routes
 app.post('/log', logHandler);
+app.get('/', (req, res) => {
+    res.send('Risk-based Authentication Service is running');
+});
 
 
 const server = http.createServer(app);
