@@ -9,7 +9,7 @@ interface LogEntry {
     date: string; 
 }
 
-const processLog = (logEntry: LogEntry) => {
+ export const processLog = (logEntry: LogEntry) => {
     const { username, deviceId, ip, event, date } = logEntry;
 
     // Initialize user if not already present
@@ -47,10 +47,19 @@ const processLog = (logEntry: LogEntry) => {
     }
 
     if (!dataStore.ips[ip]) {
-        const isInternal = ip.startsWith('10.97.2.'); // Example check for internal IP
+        const isInternal = checkIP(ip);
         dataStore.ips[ip] = { isKnown: true, isInternal };
+    } else if (dataStore.ips[ip].isInternal === undefined) {
+        // Handle the case where isInternal is not set
+        dataStore.ips[ip].isInternal = checkIP(ip);
     }
+
+   
 };
+
+function checkIP(ip : string): boolean{
+        return ip.startsWith('10.97.2.');
+}
 
 export const logHandler = (req: Request, res: Response) => {
     const logEntry = req.body as LogEntry;
